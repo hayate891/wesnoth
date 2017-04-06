@@ -973,7 +973,7 @@ function wml_actions.kill(cfg)
 	end
 	local dead_men_walking = wesnoth.get_units(cfg)
 	for i,unit in ipairs(dead_men_walking) do
-		local death_loc = {unit.loc}
+		local death_loc = {tonumber(unit.x) or 0, tonumber(unit.y) or 0}
 		if not secondary_unit then killer_loc = death_loc end
 		local can_fire = false
 
@@ -1002,10 +1002,10 @@ function wml_actions.kill(cfg)
 			wesnoth.scroll_to_tile(death_loc)
 			local anim = wesnoth.create_animator()
 			-- Possible TODO: Add weapon selection? (That's kinda a pain right now; see animate_unit defn)
-			anim:add_unit(unit, "death", "kill")
+			anim:add(unit, "death", "kill")
 			--[[
 			if secondary_unit then
-				anim:add_unit(secondary_unit, "victory", "kill")
+				anim:add(secondary_unit, "victory", "kill")
 			end
 			]]
 			anim:run()
